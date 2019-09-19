@@ -1,13 +1,13 @@
-package com.jean.cursomc;
+package com.jean.sbc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CursomcApplication {
+public class SprintBootCourseApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CursomcApplication.class, args);
+		SpringApplication.run(SprintBootCourseApplication.class, args);
 	}
 
 }
