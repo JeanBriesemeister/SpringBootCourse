@@ -8,10 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Category implements Serializable {
+public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,16 +23,21 @@ public class Category implements Serializable {
 
 	private String nome;
 
-	@ManyToMany(mappedBy = "categories")
-	private List<Product> products = new ArrayList<>();
+	private Double price;
 
-	public Category() {
+	@ManyToMany
+	@JoinTable(name = "PRODUCTCATEGORY", joinColumns = @JoinColumn(name = "PRODUCTID"), inverseJoinColumns = @JoinColumn(name = "CATEGORYID"))
+	private List<Category> categories = new ArrayList<>();
+
+	public Product() {
+
 	}
 
-	public Category(Integer id, String nome) {
+	public Product(Integer id, String nome, Double price) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -49,6 +56,22 @@ public class Category implements Serializable {
 		this.nome = nome;
 	}
 
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -65,21 +88,13 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Product other = (Product) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
 	}
 
 }
