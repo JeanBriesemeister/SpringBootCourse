@@ -1,21 +1,16 @@
 package com.jean.sbc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Product implements Serializable {
+public class City implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,22 +20,19 @@ public class Product implements Serializable {
 
 	private String name;
 
-	private Double price;
+	@ManyToOne
+	@JoinColumn(name="PROVINCEID")
+	private Province province;
 
-	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "PRODUCTCATEGORY", joinColumns = @JoinColumn(name = "PRODUCTID"), inverseJoinColumns = @JoinColumn(name = "CATEGORYID"))
-	private List<Category> categories = new ArrayList<>();
-
-	public Product() {
+	public City() {
 
 	}
 
-	public Product(Integer id, String nome, Double price) {
+	public City(Integer id, String name, Province province) {
 		super();
 		this.id = id;
-		this.name = nome;
-		this.price = price;
+		this.name = name;
+		this.province = province;
 	}
 
 	public Integer getId() {
@@ -51,28 +43,20 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
+	public String getName() {
 		return name;
 	}
 
-	public void setNome(String nome) {
-		this.name = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Double getPrice() {
-		return price;
+	public Province getProvince() {
+		return province;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public List<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	public void setProvince(Province province) {
+		this.province = province;
 	}
 
 	@Override
@@ -91,7 +75,7 @@ public class Product implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Product other = (Product) obj;
+		City other = (City) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

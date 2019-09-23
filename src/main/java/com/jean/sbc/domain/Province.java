@@ -8,14 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Product implements Serializable {
+public class Province implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,22 +21,17 @@ public class Product implements Serializable {
 
 	private String name;
 
-	private Double price;
+	@OneToMany(mappedBy = "province")
+	private List<City> cities = new ArrayList<>();
 
-	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "PRODUCTCATEGORY", joinColumns = @JoinColumn(name = "PRODUCTID"), inverseJoinColumns = @JoinColumn(name = "CATEGORYID"))
-	private List<Category> categories = new ArrayList<>();
-
-	public Product() {
-
+	public Province() {
+		
 	}
 
-	public Product(Integer id, String nome, Double price) {
+	public Province(Integer id, String name) {
 		super();
 		this.id = id;
-		this.name = nome;
-		this.price = price;
+		this.name = name;
 	}
 
 	public Integer getId() {
@@ -51,28 +42,20 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
+	public String getName() {
 		return name;
 	}
 
-	public void setNome(String nome) {
-		this.name = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Double getPrice() {
-		return price;
+	public List<City> getCities() {
+		return cities;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public List<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	public void setCities(List<City> cities) {
+		this.cities = cities;
 	}
 
 	@Override
@@ -91,7 +74,7 @@ public class Product implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Product other = (Product) obj;
+		Province other = (Province) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
