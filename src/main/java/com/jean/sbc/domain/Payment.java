@@ -6,33 +6,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jean.sbc.domain.enums.PaymentStatus;
 
 @Entity
-public class City implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String name;
+	private Integer status;
 
-	@ManyToOne
-	@JoinColumn(name = "PROVINCEID")
-	private Province province;
+	@JsonIgnore
+	@OneToOne
+	@JoinColumn(name = "REQUESTID")
+	@MapsId
+	private Request request;
 
-	public City() {
+	public Payment() {
 
 	}
 
-	public City(Integer id, String name, Province province) {
+	public Payment(Integer id, PaymentStatus status, Request request) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.province = province;
+		this.status = status.getCod();
+		this.request = request;
 	}
 
 	public Integer getId() {
@@ -43,20 +51,20 @@ public class City implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public PaymentStatus getStatus() {
+		return PaymentStatus.toEnum(status);
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setStatus(PaymentStatus status) {
+		this.status = status.getCod();
 	}
 
-	public Province getProvince() {
-		return province;
+	public Request getRequest() {
+		return request;
 	}
 
-	public void setProvince(Province province) {
-		this.province = province;
+	public void setRequest(Request request) {
+		this.request = request;
 	}
 
 	@Override
@@ -75,7 +83,7 @@ public class City implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		City other = (City) obj;
+		Payment other = (Payment) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

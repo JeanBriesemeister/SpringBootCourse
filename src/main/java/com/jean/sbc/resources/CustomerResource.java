@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jean.sbc.domain.Category;
-import com.jean.sbc.services.CategoryService;
+import com.jean.sbc.domain.Customer;
+import com.jean.sbc.services.CustomerService;
 
 @RestController
-@RequestMapping(value = "/categories")
-public class CategoryResource {
+@RequestMapping(value = "/customers")
+public class CustomerResource {
 
 	@Autowired
-	private CategoryService categoryService;
+	private CustomerService customerService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Category category = categoryService.find(id);
+		Customer Customer = customerService.find(id);
 
-		return ResponseEntity.ok().body(category);
+		return ResponseEntity.ok().body(Customer);
 	}
 }

@@ -34,11 +34,14 @@ public class Customer implements Serializable {
 	private Integer customerType;
 
 	@OneToMany(mappedBy = "customer")
-	private List<Address> Addresses = new ArrayList<Address>();
+	private List<Address> addresses = new ArrayList<Address>();
 
 	@ElementCollection
-	@CollectionTable(name="TELEPHONE")
+	@CollectionTable(name = "TELEPHONE")
 	private Set<String> telephones = new HashSet<>();
+
+	@OneToMany(mappedBy = "customer")
+	private List<Request> requests = new ArrayList<Request>();
 
 	public Customer() {
 
@@ -94,11 +97,11 @@ public class Customer implements Serializable {
 	}
 
 	public List<Address> getAddresses() {
-		return Addresses;
+		return addresses;
 	}
 
 	public void setAddresses(List<Address> addresses) {
-		Addresses = addresses;
+		this.addresses = addresses;
 	}
 
 	public Set<String> getTelephones() {
@@ -107,6 +110,14 @@ public class Customer implements Serializable {
 
 	public void setTelephones(Set<String> telephones) {
 		this.telephones = telephones;
+	}
+
+	public List<Request> getRequests() {
+		return requests;
+	}
+
+	public void setRequests(List<Request> requests) {
+		this.requests = requests;
 	}
 
 	@Override
@@ -133,5 +144,4 @@ public class Customer implements Serializable {
 			return false;
 		return true;
 	}
-
 }

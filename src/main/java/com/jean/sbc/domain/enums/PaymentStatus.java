@@ -1,16 +1,18 @@
 package com.jean.sbc.domain.enums;
 
-public enum CustomerType {
+public enum PaymentStatus {
 
-	PESSOAFISICA(1, "Pessoa Física"),
+	PENDENTE(1, "Pendentene"),
 
-	PESSOAJURIDICA(2, "Pessoa Jurídica");
+	QUITADO(2, "Quitado"),
+
+	CANCELADO(3, "Cancelado");
 
 	private Integer cod;
 
 	private String description;
 
-	private CustomerType(int cod, String description) {
+	private PaymentStatus(int cod, String description) {
 		this.cod = cod;
 		this.description = description;
 	}
@@ -23,12 +25,12 @@ public enum CustomerType {
 		return this.description;
 	}
 
-	public static CustomerType toEnum(Integer cod) {
+	public static PaymentStatus toEnum(Integer cod) {
 		if (cod == null) {
 			return null;
 		}
 
-		for (CustomerType ct : CustomerType.values()) {
+		for (PaymentStatus ct : PaymentStatus.values()) {
 			if (cod.equals(ct.getCod())) {
 				return ct;
 			}

@@ -2,7 +2,9 @@ package com.jean.sbc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product implements Serializable {
@@ -27,10 +30,13 @@ public class Product implements Serializable {
 
 	private Double price;
 
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "PRODUCTCATEGORY", joinColumns = @JoinColumn(name = "PRODUCTID"), inverseJoinColumns = @JoinColumn(name = "CATEGORYID"))
 	private List<Category> categories = new ArrayList<>();
+
+	@OneToMany(mappedBy = "id.product")
+	private Set<RequestItem> items = new HashSet<RequestItem>();
 
 	public Product() {
 
@@ -41,6 +47,15 @@ public class Product implements Serializable {
 		this.id = id;
 		this.name = nome;
 		this.price = price;
+	}
+
+	public List<Request> getRequests() {
+		List<Request> requests = new ArrayList<Request>();
+		for (RequestItem requestItem : this.items) {
+			requests.add(requestItem.getRequest());
+		}
+
+		return requests;
 	}
 
 	public Integer getId() {
@@ -73,6 +88,14 @@ public class Product implements Serializable {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+
+	public Set<RequestItem> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<RequestItem> items) {
+		this.items = items;
 	}
 
 	@Override

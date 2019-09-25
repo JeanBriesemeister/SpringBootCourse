@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Address implements Serializable {
 
@@ -28,12 +30,13 @@ public class Address implements Serializable {
 
 	private String postalCode;
 
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="CUSTOMERID")
+	@JoinColumn(name = "CUSTOMERID")
 	private Customer customer;
 
 	@ManyToOne
-	@JoinColumn(name="CITYID")
+	@JoinColumn(name = "CITYID")
 	private City city;
 
 	public Address() {
@@ -109,6 +112,14 @@ public class Address implements Serializable {
 		this.customer = customer;
 	}
 
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,13 +143,5 @@ public class Address implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public City getCity() {
-		return city;
-	}
-
-	public void setCity(City city) {
-		this.city = city;
 	}
 }
