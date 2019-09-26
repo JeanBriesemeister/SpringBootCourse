@@ -43,10 +43,10 @@ public class Product implements Serializable {
 
 	}
 
-	public Product(Integer id, String nome, Double price) {
+	public Product(Integer id, String name, Double price) {
 		super();
 		this.id = id;
-		this.name = nome;
+		this.name = name;
 		this.price = price;
 	}
 
@@ -68,12 +68,12 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
+	public String getName() {
 		return name;
 	}
 
-	public void setNome(String nome) {
-		this.name = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Double getPrice() {
