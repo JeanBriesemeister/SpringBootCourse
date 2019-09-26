@@ -5,11 +5,14 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class RequestItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	@EmbeddedId
 	private RequestItemPK id = new RequestItemPK();
 
@@ -64,6 +67,7 @@ public class RequestItem implements Serializable {
 		this.price = price;
 	}
 
+	@JsonIgnore
 	public Request getRequest() {
 		return this.id.getRequest();
 	}
