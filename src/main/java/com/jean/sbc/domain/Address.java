@@ -43,14 +43,14 @@ public class Address implements Serializable {
 
 	}
 
-	public Address(Integer id, String street, String number, String complement, String quarter, String postalCode,
+	public Address(Integer id, String street, String number, String complement, String district, String postalCode,
 			Customer customer, City city) {
 		super();
 		this.id = id;
 		this.street = street;
 		this.number = number;
 		this.complement = complement;
-		district = quarter;
+		this.district = district;
 		this.postalCode = postalCode;
 		this.customer = customer;
 		this.city = city;
@@ -88,12 +88,12 @@ public class Address implements Serializable {
 		this.complement = complement;
 	}
 
-	public String getQuarter() {
+	public String getDistrict() {
 		return district;
 	}
 
-	public void setQuarter(String quarter) {
-		district = quarter;
+	public void setDistrict(String district) {
+		this.district = district;
 	}
 
 	public String getPostalCode() {

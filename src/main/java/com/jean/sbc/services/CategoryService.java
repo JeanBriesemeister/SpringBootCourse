@@ -36,9 +36,14 @@ public class CategoryService {
 	}
 
 	public Category update(Category category) {
-		this.find(category.getId());
+		Category categoryDB = this.find(category.getId());
+		this.updateData(categoryDB, category);
 
 		return categoryRepository.save(category);
+	}
+	
+	private void updateData(Category categoryDB, Category category) {
+		categoryDB.setName(category.getName());
 	}
 
 	public void delete(Integer id) {

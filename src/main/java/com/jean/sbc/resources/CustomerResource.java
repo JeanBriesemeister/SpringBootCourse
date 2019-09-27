@@ -1,5 +1,6 @@
 package com.jean.sbc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jean.sbc.domain.Customer;
 import com.jean.sbc.dto.CustomerDTO;
+import com.jean.sbc.dto.CustomerNewDTO;
 import com.jean.sbc.services.CustomerService;
 
 @RestController
@@ -31,6 +34,17 @@ public class CustomerResource {
 		Customer Customer = customerService.find(id);
 
 		return ResponseEntity.ok().body(Customer);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody CustomerNewDTO customerDTO) {
+		Customer customer = customerService.fromDTO(customerDTO);
+		customer = customerService.insert(customer);
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(customer.getId())
+				.toUri();
+
+		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
