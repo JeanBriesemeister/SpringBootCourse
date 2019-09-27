@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Request {
@@ -37,7 +36,7 @@ public class Request {
 	@ManyToOne
 	@JoinColumn(name = "ADDRESSID")
 	private Address address;
-	
+
 	@OneToMany(mappedBy = "id.request")
 	private Set<RequestItem> items = new HashSet<RequestItem>();
 
@@ -92,7 +91,7 @@ public class Request {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
+
 	public Set<RequestItem> getItems() {
 		return items;
 	}

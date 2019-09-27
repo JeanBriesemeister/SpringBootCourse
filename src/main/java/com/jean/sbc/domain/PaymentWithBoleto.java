@@ -13,10 +13,10 @@ public class PaymentWithBoleto extends Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dueDate;
 
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date paymentDate;
 
 	public PaymentWithBoleto() {
