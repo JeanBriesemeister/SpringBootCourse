@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.jean.sbc.domain.Customer;
+import com.jean.sbc.services.validation.CustomerUpdate;
 
+@CustomerUpdate
 public class CustomerDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

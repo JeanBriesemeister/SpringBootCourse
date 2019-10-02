@@ -2,38 +2,55 @@ package com.jean.sbc.dto;
 
 import java.io.Serializable;
 
-public class CustomerNewDTO implements Serializable{
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.jean.sbc.services.validation.CustomerInsert;
+
+@CustomerInsert
+public class CustomerNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty(message = "Required field")
+	@Length(min = 5, max = 80, message = "Lenght must be between 5 and 80 characters")
 	private String name;
 
+	@NotEmpty(message = "Required field")
+	@Email(message = "Invalid e-mail")
 	private String email;
 
+	@NotEmpty(message = "Required field")
 	private String financialCode;
 
 	private Integer customerType;
-	
+
+	@NotEmpty(message = "Required field")
 	private String street;
 
+	@NotEmpty(message = "Required field")
 	private String number;
 
 	private String complement;
 
 	private String district;
 
+	@NotEmpty(message = "Required field")
 	private String postalCode;
-	
+
+	@NotEmpty(message = "Required field")
 	private String telephone1;
-	
+
 	private String telephone2;
 
 	private String telephone3;
-	
+
 	private Integer cityId;
-	
+
 	public CustomerNewDTO() {
-		
+
 	}
 
 	public String getName() {
@@ -139,5 +156,5 @@ public class CustomerNewDTO implements Serializable{
 	public void setCityId(Integer cityId) {
 		this.cityId = cityId;
 	}
-	
+
 }
