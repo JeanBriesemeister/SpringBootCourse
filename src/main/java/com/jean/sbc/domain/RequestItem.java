@@ -35,6 +35,10 @@ public class RequestItem implements Serializable {
 		this.price = price;
 	}
 
+	public double getSubTotal() {
+		return (this.price - this.discount) * this.quantity;
+	}
+
 	public RequestItemPK getId() {
 		return id;
 	}
@@ -74,6 +78,14 @@ public class RequestItem implements Serializable {
 
 	public Product getProduct() {
 		return this.id.getProduct();
+	}
+
+	public void setRequest(Request request) {
+		this.id.setRequest(request);
+	}
+
+	public void setProduct(Product product) {
+		this.id.setProduct(product);
 	}
 
 	@Override

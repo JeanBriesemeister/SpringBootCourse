@@ -35,7 +35,7 @@ public class CustomerResource {
 
 		return ResponseEntity.ok().body(Customer);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CustomerNewDTO customerDTO) {
 		Customer customer = customerService.fromDTO(customerDTO);

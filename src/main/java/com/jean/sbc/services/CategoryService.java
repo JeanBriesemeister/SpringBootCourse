@@ -41,7 +41,7 @@ public class CategoryService {
 
 		return categoryRepository.save(category);
 	}
-	
+
 	private void updateData(Category categoryDB, Category category) {
 		categoryDB.setName(category.getName());
 	}

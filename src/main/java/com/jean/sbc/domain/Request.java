@@ -52,6 +52,15 @@ public class Request {
 		this.address = address;
 	}
 
+	public double getTotalValue() {
+		double sum = 0.0;
+		for (RequestItem requestItem : items) {
+			sum = sum + requestItem.getSubTotal();
+		}
+
+		return sum;
+	}
+
 	public Integer getId() {
 		return id;
 	}
