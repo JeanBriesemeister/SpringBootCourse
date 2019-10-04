@@ -1,5 +1,6 @@
 package com.jean.sbc.services;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class RequestService {
 	@Autowired
 	private RequestItemRepository requestItemRepository;
 
+	@Autowired
+	private CustomerService customerService;
+
 	public Request find(Integer id) {
 		Optional<Request> obj = requestRepository.findById(id);
 
@@ -43,7 +47,8 @@ public class RequestService {
 	@Transactional
 	public Request insert(Request request) {
 		request.setId(null);
-		request.setDate(null);
+		request.setDate(new Date());
+		request.setCustomer(customerService.find(request.getCustomer().getId()));
 		request.getPayment().setStatus(PaymentStatus.PENDENTE);
 		request.getPayment().setRequest(request);
 
@@ -57,11 +62,14 @@ public class RequestService {
 
 		for (RequestItem requestItem : request.getItems()) {
 			requestItem.setDiscount(0.0);
-			requestItem.setPrice(productService.find(requestItem.getProduct().getId()).getPrice());
+			requestItem.setProduct(productService.find(requestItem.getProduct().getId()));
+			requestItem.setPrice(requestItem.getProduct().getPrice());
 			requestItem.setRequest(request);
 		}
 
 		requestItemRepository.saveAll(request.getItems());
+
+		System.out.println(request);
 
 		return request;
 	}

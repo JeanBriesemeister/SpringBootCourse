@@ -2,7 +2,7 @@ package com.jean.sbc.domain.enums;
 
 public enum PaymentStatus {
 
-	PENDENTE(1, "Pendentene"),
+	PENDENTE(1, "Pendente"),
 
 	QUITADO(2, "Quitado"),
 
