@@ -1,7 +1,10 @@
 package com.jean.sbc.domain;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -132,5 +135,31 @@ public class Request {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("Request number: ");
+		builder.append(this.getId());
+		builder.append(", Date: ");
+		builder.append(sdf.format(this.getDate()));
+		builder.append(", Customer: ");
+		builder.append(this.getCustomer().getName());
+		builder.append(", Payment status: ");
+		builder.append(this.getPayment().getStatus().getDescription());
+		builder.append("\nDetails:\n");
+
+		for (RequestItem requestItem : this.getItems()) {
+			builder.append(requestItem.toString());
+		}
+
+		builder.append("Total value: ");
+		builder.append(nf.format(this.getTotalValue()));
+
+		return builder.toString();
 	}
 }
