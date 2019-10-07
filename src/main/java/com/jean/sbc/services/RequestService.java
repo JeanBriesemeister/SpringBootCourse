@@ -37,6 +37,9 @@ public class RequestService {
 	@Autowired
 	private CustomerService customerService;
 
+	@Autowired
+	private EmailService emailService;
+
 	public Request find(Integer id) {
 		Optional<Request> obj = requestRepository.findById(id);
 
@@ -69,7 +72,7 @@ public class RequestService {
 
 		requestItemRepository.saveAll(request.getItems());
 
-		System.out.println(request);
+		emailService.sendOrderConfirmationEmail(request);
 
 		return request;
 	}
