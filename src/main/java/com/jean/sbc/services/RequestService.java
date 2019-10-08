@@ -72,7 +72,7 @@ public class RequestService {
 
 		requestItemRepository.saveAll(request.getItems());
 
-		emailService.sendOrderConfirmationEmail(request);
+		emailService.sendOrderConfirmatioHtmlEmail(request);
 
 		return request;
 	}
