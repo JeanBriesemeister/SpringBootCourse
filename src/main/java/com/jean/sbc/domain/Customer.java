@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jean.sbc.domain.enums.CustomerType;
+import com.jean.sbc.domain.enums.Profile;
 
 @Entity
 public class Customer implements Serializable {
@@ -37,6 +40,9 @@ public class Customer implements Serializable {
 
 	private Integer customerType;
 
+	@JsonIgnore
+	private String password;
+
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<Address> addresses = new ArrayList<Address>();
 
@@ -44,21 +50,29 @@ public class Customer implements Serializable {
 	@CollectionTable(name = "TELEPHONE")
 	private Set<String> telephones = new HashSet<>();
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PROFILEs")
+	private Set<Integer> profiles = new HashSet<Integer>();
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "customer")
 	private List<Request> requests = new ArrayList<Request>();
 
 	public Customer() {
-
+		this.addProfile(Profile.CUSTOMER);
 	}
 
-	public Customer(Integer id, String name, String email, String financialCode, CustomerType customerType) {
+	public Customer(Integer id, String name, String email, String financialCode, CustomerType customerType,
+			String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.financialCode = financialCode;
 		this.customerType = customerType == null ? null : customerType.getCod();
+		this.password = password;
+
+		this.addProfile(Profile.CUSTOMER);
 	}
 
 	public Integer getId() {
@@ -99,6 +113,22 @@ public class Customer implements Serializable {
 
 	public void setCustomerType(CustomerType customerType) {
 		this.customerType = customerType.getCod();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Profile> getProfiles() {
+		return this.profiles.stream().map(profile -> Profile.toEnum(profile)).collect(Collectors.toSet());
+	}
+
+	public void addProfile(Profile profile) {
+		this.profiles.add(profile.getCod());
 	}
 
 	public List<Address> getAddresses() {

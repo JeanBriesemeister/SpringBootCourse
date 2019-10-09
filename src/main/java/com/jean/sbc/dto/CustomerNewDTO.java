@@ -26,6 +26,9 @@ public class CustomerNewDTO implements Serializable {
 	private String financialCode;
 
 	private Integer customerType;
+	
+	@NotEmpty(message = "Required field")
+	private String password;
 
 	@NotEmpty(message = "Required field")
 	private String street;
@@ -155,6 +158,14 @@ public class CustomerNewDTO implements Serializable {
 
 	public void setCityId(Integer cityId) {
 		this.cityId = cityId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
