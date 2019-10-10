@@ -26,7 +26,7 @@ public class CustomerNewDTO implements Serializable {
 	private String financialCode;
 
 	private Integer customerType;
-	
+
 	@NotEmpty(message = "Required field")
 	private String password;
 
