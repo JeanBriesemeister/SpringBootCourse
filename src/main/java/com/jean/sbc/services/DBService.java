@@ -126,8 +126,8 @@ public class DBService {
 				CustomerType.PESSOAFISICA, pe.encode("123"));
 		cli1.getTelephones().addAll(Arrays.asList("27363323", "93838393"));
 
-		Customer cli2 = new Customer(null, "Ana Costa", "jeanb@softexpert.com", "31628382740", CustomerType.PESSOAFISICA,
-				pe.encode("123"));
+		Customer cli2 = new Customer(null, "Ana Costa", "jeanb@softexpert.com", "31628382740",
+				CustomerType.PESSOAFISICA, pe.encode("123"));
 		cli2.addProfile(Profile.ADMIN);
 		cli2.getTelephones().addAll(Arrays.asList("93883321", "34252625"));
 
