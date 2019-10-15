@@ -1,26 +1,33 @@
 package com.jean.sbc.services;
 
+import java.awt.image.BufferedImage;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jean.sbc.domain.Address;
 import com.jean.sbc.domain.City;
 import com.jean.sbc.domain.Customer;
 import com.jean.sbc.domain.enums.CustomerType;
+import com.jean.sbc.domain.enums.Profile;
 import com.jean.sbc.dto.CustomerDTO;
 import com.jean.sbc.dto.CustomerNewDTO;
 import com.jean.sbc.repositories.AddressRepository;
 import com.jean.sbc.repositories.CustomerRepository;
+import com.jean.sbc.security.UserSS;
+import com.jean.sbc.services.exception.AuthorizationException;
 import com.jean.sbc.services.exception.DataIntegrityException;
 import com.jean.sbc.services.exception.ObjectNotFoundException;
 
@@ -36,7 +43,21 @@ public class CustomerService {
 	@Autowired
 	private BCryptPasswordEncoder pe;
 
+	@Autowired
+	private S3Service s3Service;
+
+	@Autowired
+	private ImageService imageService;
+
+	@Value("${img.prefix.client.profile}")
+	private String prefix;
+
 	public Customer find(Integer id) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acess denied");
+		}
+
 		Optional<Customer> obj = customerRepository.findById(id);
 
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -106,5 +127,17 @@ public class CustomerService {
 		}
 		return customer;
 
+	}
+
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acess denied");
+		}
+
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		String fileName = prefix + user.getId() + ".jpg";
+
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
 }

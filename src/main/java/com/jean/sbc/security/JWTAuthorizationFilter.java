@@ -30,8 +30,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		super.doFilterInternal(request, response, chain);
-
 		String authorization = request.getHeader("Authorization");
 		if (authorization != null && authorization.startsWith("Bearer ")) {
 			UsernamePasswordAuthenticationToken authToken = this.getAuthentication(authorization.substring(7));

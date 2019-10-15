@@ -57,7 +57,7 @@ public class Customer implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "customer")
 	private List<Request> requests = new ArrayList<Request>();
-
+	
 	public Customer() {
 		this.addProfile(Profile.CUSTOMER);
 	}

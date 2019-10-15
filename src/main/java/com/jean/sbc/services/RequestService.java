@@ -4,9 +4,13 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jean.sbc.domain.Customer;
 import com.jean.sbc.domain.PaymentWithBoleto;
 import com.jean.sbc.domain.Request;
 import com.jean.sbc.domain.RequestItem;
@@ -14,6 +18,8 @@ import com.jean.sbc.domain.enums.PaymentStatus;
 import com.jean.sbc.repositories.PaymentRepository;
 import com.jean.sbc.repositories.RequestItemRepository;
 import com.jean.sbc.repositories.RequestRepository;
+import com.jean.sbc.security.UserSS;
+import com.jean.sbc.services.exception.AuthorizationException;
 import com.jean.sbc.services.exception.ObjectNotFoundException;
 
 @Service
@@ -75,5 +81,17 @@ public class RequestService {
 		emailService.sendOrderConfirmatioHtmlEmail(request);
 
 		return request;
+	}
+
+	public Page<Request> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Customer customer = customerService.find(user.getId());
+		
+		return requestRepository.findByCustomer(customer, pageRequest);
 	}
 }
