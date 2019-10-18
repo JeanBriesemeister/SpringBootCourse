@@ -52,6 +52,9 @@ public class CustomerService {
 	@Value("${img.prefix.client.profile}")
 	private String prefix;
 
+	@Value("${img.profile.size}")
+	private Integer size;
+
 	public Customer find(Integer id) {
 		UserSS user = UserService.authenticated();
 		if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
@@ -97,6 +100,15 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 
+	public Customer findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Profile.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Access denied");
+		}
+
+		return this.find(user.getId());
+	}
+
 	public Page<Customer> findPage(Integer page, Integer linesPerPage, String orderBy, String orderByDirection) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(orderByDirection), orderBy);
 
@@ -136,6 +148,8 @@ public class CustomerService {
 		}
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
 		String fileName = prefix + user.getId() + ".jpg";
 
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
