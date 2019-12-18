@@ -5,12 +5,12 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
-import com.jean.sbc.domain.PaymentWithBoleto;
+import com.jean.sbc.domain.PaymentWithBankSlip;
 
 @Service
-public class BoletoService {
+public class BankSlipService {
 
-	public void fillPaymentWithBoleto(PaymentWithBoleto payment, Date paymentDate) {
+	public void fillPaymentWithBankSlip(PaymentWithBankSlip payment, Date paymentDate) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(paymentDate);
 		calendar.add(Calendar.DAY_OF_MONTH, 7);

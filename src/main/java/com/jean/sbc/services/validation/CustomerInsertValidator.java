@@ -13,7 +13,7 @@ import com.jean.sbc.domain.enums.CustomerType;
 import com.jean.sbc.dto.CustomerNewDTO;
 import com.jean.sbc.repositories.CustomerRepository;
 import com.jean.sbc.resources.exception.FieldMessage;
-import com.jean.sbc.services.validation.utils.BR;
+import com.jean.sbc.services.validation.utils.Utils;
 
 public class CustomerInsertValidator implements ConstraintValidator<CustomerInsert, CustomerNewDTO> {
 
@@ -28,14 +28,14 @@ public class CustomerInsertValidator implements ConstraintValidator<CustomerInse
 	public boolean isValid(CustomerNewDTO customerNewDTO, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
 
-		if (customerNewDTO.getCustomerType().equals(CustomerType.PESSOAFISICA.getCod())
-				&& !BR.isValidCPF(customerNewDTO.getFinancialCode())) {
-			list.add(new FieldMessage("financialCode", "CPF is invalid"));
+		if (customerNewDTO.getCustomerType().equals(CustomerType.NATURALPERSON.getCod())
+				&& !Utils.isValidSocialInsuranceNumber(customerNewDTO.getSocialInsuranceOrBusinessNumber())) {
+			list.add(new FieldMessage("socialInsuranceOrBusinessNumber", "Social Insurance Number is invalid"));
 		}
 
-		if (customerNewDTO.getCustomerType().equals(CustomerType.PESSOAJURIDICA.getCod())
-				&& !BR.isValidCPF(customerNewDTO.getFinancialCode())) {
-			list.add(new FieldMessage("financialCode", "CNPJ is invalid"));
+		if (customerNewDTO.getCustomerType().equals(CustomerType.LEGALPERSON.getCod())
+				&& !Utils.isValidBusinessNumber(customerNewDTO.getSocialInsuranceOrBusinessNumber())) {
+			list.add(new FieldMessage("socialInsuranceOrBusinessNumber", "Business Number is invalid"));
 		}
 
 		Customer customer = customerRepository.findByEmail(customerNewDTO.getEmail());

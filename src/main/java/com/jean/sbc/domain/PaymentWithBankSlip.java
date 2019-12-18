@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.jean.sbc.domain.enums.PaymentStatus;
 
 @Entity
-@JsonTypeName("paymentWithBoleto")
-public class PaymentWithBoleto extends Payment implements Serializable {
+@JsonTypeName("paymentWithBankSlip")
+public class PaymentWithBankSlip extends Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,12 +21,12 @@ public class PaymentWithBoleto extends Payment implements Serializable {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date paymentDate;
 
-	public PaymentWithBoleto() {
+	public PaymentWithBankSlip() {
 
 	}
 
-	public PaymentWithBoleto(Integer id, PaymentStatus status, Request request, Date dueDate, Date paymentDate) {
-		super(id, status, request);
+	public PaymentWithBankSlip(Integer id, PaymentStatus status, Order order, Date dueDate, Date paymentDate) {
+		super(id, status, order);
 		this.dueDate = dueDate;
 		this.paymentDate = paymentDate;
 	}

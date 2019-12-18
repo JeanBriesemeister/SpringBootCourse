@@ -10,13 +10,13 @@ import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class RequestItem implements Serializable {
+public class OrderItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
 	@EmbeddedId
-	private RequestItemPK id = new RequestItemPK();
+	private OrderItemPK id = new OrderItemPK();
 
 	private Double discount;
 
@@ -24,14 +24,14 @@ public class RequestItem implements Serializable {
 
 	private Double price;
 
-	public RequestItem() {
+	public OrderItem() {
 
 	}
 
-	public RequestItem(Request request, Product product, Double discount, Integer quantity, Double price) {
+	public OrderItem(Order order, Product product, Double discount, Integer quantity, Double price) {
 		super();
 		this.id.setProduct(product);
-		this.id.setRequest(request);
+		this.id.setOrder(order);
 		this.discount = discount;
 		this.quantity = quantity;
 		this.price = price;
@@ -41,11 +41,11 @@ public class RequestItem implements Serializable {
 		return (this.price - this.discount) * this.quantity;
 	}
 
-	public RequestItemPK getId() {
+	public OrderItemPK getId() {
 		return id;
 	}
 
-	public void setId(RequestItemPK id) {
+	public void setId(OrderItemPK id) {
 		this.id = id;
 	}
 
@@ -74,16 +74,16 @@ public class RequestItem implements Serializable {
 	}
 
 	@JsonIgnore
-	public Request getRequest() {
-		return this.id.getRequest();
+	public Order getOrder() {
+		return this.id.getOrder();
 	}
 
 	public Product getProduct() {
 		return this.id.getProduct();
 	}
 
-	public void setRequest(Request request) {
-		this.id.setRequest(request);
+	public void setOrder(Order order) {
+		this.id.setOrder(order);
 	}
 
 	public void setProduct(Product product) {
@@ -106,7 +106,7 @@ public class RequestItem implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RequestItem other = (RequestItem) obj;
+		OrderItem other = (OrderItem) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -50,7 +50,7 @@ public class JWTUtil {
 		if (claims != null) {
 			return claims.getSubject();
 		}
-		
+
 		return null;
 	}
 

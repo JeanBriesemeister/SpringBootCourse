@@ -36,7 +36,7 @@ public class Customer implements Serializable {
 	@Column(unique = true)
 	private String email;
 
-	private String financialCode;
+	private String socialInsuranceOrBusinessNumber;
 
 	private Integer customerType;
 
@@ -51,24 +51,24 @@ public class Customer implements Serializable {
 	private Set<String> telephones = new HashSet<>();
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "PROFILEs")
+	@CollectionTable(name = "PROFILES")
 	private Set<Integer> profiles = new HashSet<Integer>();
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "customer")
-	private List<Request> requests = new ArrayList<Request>();
-	
+	private List<Order> orders = new ArrayList<Order>();
+
 	public Customer() {
 		this.addProfile(Profile.CUSTOMER);
 	}
 
-	public Customer(Integer id, String name, String email, String financialCode, CustomerType customerType,
+	public Customer(Integer id, String name, String email, String socialInsuranceOrBusinessNumber, CustomerType customerType,
 			String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.financialCode = financialCode;
+		this.socialInsuranceOrBusinessNumber = socialInsuranceOrBusinessNumber;
 		this.customerType = customerType == null ? null : customerType.getCod();
 		this.password = password;
 
@@ -99,12 +99,12 @@ public class Customer implements Serializable {
 		this.email = email;
 	}
 
-	public String getFinancialCode() {
-		return financialCode;
+	public String getSocialInsuranceOrBusinessNumber() {
+		return socialInsuranceOrBusinessNumber;
 	}
 
-	public void setFinancialCode(String financialCode) {
-		this.financialCode = financialCode;
+	public void setSocialInsuranceOrBusinessNumber(String socialInsuranceOrBusinessNumber) {
+		this.socialInsuranceOrBusinessNumber = socialInsuranceOrBusinessNumber;
 	}
 
 	public CustomerType getCustomerType() {
@@ -147,12 +147,12 @@ public class Customer implements Serializable {
 		this.telephones = telephones;
 	}
 
-	public List<Request> getRequests() {
-		return requests;
+	public List<Order> getOrders() {
+		return orders;
 	}
 
-	public void setRequests(List<Request> requests) {
-		this.requests = requests;
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override

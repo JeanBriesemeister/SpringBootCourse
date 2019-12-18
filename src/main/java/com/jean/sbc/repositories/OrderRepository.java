@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jean.sbc.domain.Customer;
-import com.jean.sbc.domain.Request;
+import com.jean.sbc.domain.Order;
 
 @Repository
-public interface RequestRepository extends JpaRepository<Request, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 	@Transactional(readOnly = true)
-	Page<Request> findByCustomer(Customer customer, Pageable pageRequest);
+	Page<Order> findByCustomer(Customer customer, Pageable pageRequest);
 
 }

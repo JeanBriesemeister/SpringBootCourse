@@ -15,40 +15,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.jean.sbc.domain.Request;
-import com.jean.sbc.services.RequestService;
+import com.jean.sbc.domain.Order;
+import com.jean.sbc.services.OrderService;
 
 @RestController
-@RequestMapping(value = "/requests")
-public class RequestResource {
+@RequestMapping(value = "/orders")
+public class OrderResource {
 
 	@Autowired
-	private RequestService requestService;
+	private OrderService orderService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Request> find(@PathVariable Integer id) {
-		Request request = requestService.find(id);
+	public ResponseEntity<Order> find(@PathVariable Integer id) {
+		Order order = orderService.find(id);
 
-		return ResponseEntity.ok().body(request);
+		return ResponseEntity.ok().body(order);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody Request request) {
-		request = requestService.insert(request);
+	public ResponseEntity<Void> insert(@Valid @RequestBody Order order) {
+		order = orderService.insert(order);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(request.getId())
-				.toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(order.getId()).toUri();
 
 		return ResponseEntity.created(uri).build();
 	}
-	
-	@RequestMapping( method = RequestMethod.GET)
-	public ResponseEntity<Page<Request>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<Page<Order>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
 			@RequestParam(value = "orderByDirection", defaultValue = "DESC") String orderByDirection) {
 
-		Page<Request> categories = requestService.findPage(page, linesPerPage, orderBy, orderByDirection);
+		Page<Order> categories = orderService.findPage(page, linesPerPage, orderBy, orderByDirection);
 
 		return ResponseEntity.ok().body(categories);
 	}

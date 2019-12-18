@@ -2,9 +2,9 @@ package com.jean.sbc.domain.enums;
 
 public enum CustomerType {
 
-	PESSOAFISICA(1, "Pessoa Física"),
+	NATURALPERSON(1, "Natural Person"),
 
-	PESSOAJURIDICA(2, "Pessoa Jurídica");
+	LEGALPERSON(2, "Legal Person");
 
 	private Integer cod;
 
