@@ -28,19 +28,19 @@ public abstract class Payment implements Serializable {
 
 	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name = "REQUESTID")
+	@JoinColumn(name = "ORDERID")
 	@MapsId
-	private Request request;
+	private Order order;
 
 	public Payment() {
 
 	}
 
-	public Payment(Integer id, PaymentStatus status, Request request) {
+	public Payment(Integer id, PaymentStatus status, Order order) {
 		super();
 		this.id = id;
 		this.status = status == null ? null : status.getCod();
-		this.request = request;
+		this.order = order;
 	}
 
 	public Integer getId() {
@@ -59,12 +59,12 @@ public abstract class Payment implements Serializable {
 		this.status = status.getCod();
 	}
 
-	public Request getRequest() {
-		return request;
+	public Order getOrder() {
+		return order;
 	}
 
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	@Override

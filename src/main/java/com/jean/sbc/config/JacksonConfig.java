@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jean.sbc.domain.PaymentWithBoleto;
+import com.jean.sbc.domain.PaymentWithBankSlip;
 import com.jean.sbc.domain.PaymentWithCard;
 
 @Configuration
@@ -18,7 +18,7 @@ public class JacksonConfig {
 			@Override
 			public void configure(ObjectMapper objectMapper) {
 				objectMapper.registerSubtypes(PaymentWithCard.class);
-				objectMapper.registerSubtypes(PaymentWithBoleto.class);
+				objectMapper.registerSubtypes(PaymentWithBankSlip.class);
 
 				super.configure(objectMapper);
 			}

@@ -37,7 +37,7 @@ public class Product implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "id.product")
-	private Set<RequestItem> items = new HashSet<RequestItem>();
+	private Set<OrderItem> items = new HashSet<OrderItem>();
 
 	public Product() {
 
@@ -51,13 +51,13 @@ public class Product implements Serializable {
 	}
 
 	@JsonIgnore
-	public List<Request> getRequests() {
-		List<Request> requests = new ArrayList<Request>();
-		for (RequestItem requestItem : this.items) {
-			requests.add(requestItem.getRequest());
+	public List<Order> getOrders() {
+		List<Order> orders = new ArrayList<Order>();
+		for (OrderItem orderItem : this.items) {
+			orders.add(orderItem.getOrder());
 		}
 
-		return requests;
+		return orders;
 	}
 
 	public Integer getId() {
@@ -92,11 +92,11 @@ public class Product implements Serializable {
 		this.categories = categories;
 	}
 
-	public Set<RequestItem> getItems() {
+	public Set<OrderItem> getItems() {
 		return items;
 	}
 
-	public void setItems(Set<RequestItem> items) {
+	public void setItems(Set<OrderItem> items) {
 		this.items = items;
 	}
 

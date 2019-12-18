@@ -23,7 +23,7 @@ public class CustomerNewDTO implements Serializable {
 	private String email;
 
 	@NotEmpty(message = "Required field")
-	private String financialCode;
+	private String socialInsuranceOrBusinessNumber;
 
 	private Integer customerType;
 
@@ -72,12 +72,12 @@ public class CustomerNewDTO implements Serializable {
 		this.email = email;
 	}
 
-	public String getFinancialCode() {
-		return financialCode;
+	public String getSocialInsuranceOrBusinessNumber() {
+		return socialInsuranceOrBusinessNumber;
 	}
 
-	public void setFinancialCode(String financialCode) {
-		this.financialCode = financialCode;
+	public void setSocialInsuranceOrBusinessNumber(String socialInsuranceOrBusinessNumber) {
+		this.socialInsuranceOrBusinessNumber = socialInsuranceOrBusinessNumber;
 	}
 
 	public Integer getCustomerType() {

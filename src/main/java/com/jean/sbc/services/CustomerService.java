@@ -58,7 +58,7 @@ public class CustomerService {
 	public Customer find(Integer id) {
 		UserSS user = UserService.authenticated();
 		if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
-			throw new AuthorizationException("Acess denied");
+			throw new AuthorizationException("Access denied");
 		}
 
 		Optional<Customer> obj = customerRepository.findById(id);
@@ -92,7 +92,7 @@ public class CustomerService {
 		try {
 			customerRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Customer has requests!");
+			throw new DataIntegrityException("Customer has orders!");
 		}
 	}
 
@@ -121,7 +121,7 @@ public class CustomerService {
 
 	public Customer fromDTO(CustomerNewDTO customerDTO) {
 		Customer customer = new Customer(null, customerDTO.getName(), customerDTO.getEmail(),
-				customerDTO.getFinancialCode(), CustomerType.toEnum(customerDTO.getCustomerType()),
+				customerDTO.getSocialInsuranceOrBusinessNumber(), CustomerType.toEnum(customerDTO.getCustomerType()),
 				pe.encode(customerDTO.getPassword()));
 
 		City city = new City(customerDTO.getCityId(), null, null);
@@ -144,7 +144,7 @@ public class CustomerService {
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
 		UserSS user = UserService.authenticated();
 		if (user == null) {
-			throw new AuthorizationException("Acess denied");
+			throw new AuthorizationException("Access denied");
 		}
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);

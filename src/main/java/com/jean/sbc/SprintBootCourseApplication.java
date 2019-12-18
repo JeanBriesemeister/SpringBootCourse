@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SprintBootCourseApplication implements CommandLineRunner {
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(SprintBootCourseApplication.class, args);
 	}

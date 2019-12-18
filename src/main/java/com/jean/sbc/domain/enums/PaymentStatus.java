@@ -2,11 +2,11 @@ package com.jean.sbc.domain.enums;
 
 public enum PaymentStatus {
 
-	PENDENTE(1, "Pendente"),
+	PENDING(1, "Pending"),
 
-	QUITADO(2, "Quitado"),
+	PAID(2, "Paid"),
 
-	CANCELADO(3, "Cancelado");
+	CANCELED(3, "Canceled");
 
 	private Integer cod;
 

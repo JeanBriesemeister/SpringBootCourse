@@ -13,23 +13,23 @@ public class PaymentWithCard extends Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer numberOfParcelas;
+	private Integer numberOfInstallments;
 
 	public PaymentWithCard() {
 
 	}
 
-	public PaymentWithCard(Integer id, PaymentStatus status, Request request, Integer numberOfParcelas) {
-		super(id, status, request);
-		this.setNumberOfParcelas(numberOfParcelas);
+	public PaymentWithCard(Integer id, PaymentStatus status, Order order, Integer numberOfInstallments) {
+		super(id, status, order);
+		this.setNumberOfInstallments(numberOfInstallments);
 	}
 
-	public Integer getNumberOfParcelas() {
-		return numberOfParcelas;
+	public Integer getNumberOfInstallments() {
+		return numberOfInstallments;
 	}
 
-	public void setNumberOfParcelas(Integer numberOfParcelas) {
-		this.numberOfParcelas = numberOfParcelas;
+	public void setNumberOfInstallments(Integer numberOfInstallments) {
+		this.numberOfInstallments = numberOfInstallments;
 	}
 
 }

@@ -19,8 +19,8 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Entity
-public class Request {
+@Entity(name = "\"ORDER\"")
+public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Request {
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date date;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "request")
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
 	private Payment payment;
 
 	@ManyToOne
@@ -40,14 +40,14 @@ public class Request {
 	@JoinColumn(name = "ADDRESSID")
 	private Address address;
 
-	@OneToMany(mappedBy = "id.request")
-	private Set<RequestItem> items = new HashSet<RequestItem>();
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<OrderItem>();
 
-	public Request() {
+	public Order() {
 
 	}
 
-	public Request(Integer id, Date date, Customer customer, Address address) {
+	public Order(Integer id, Date date, Customer customer, Address address) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -57,8 +57,8 @@ public class Request {
 
 	public double getTotalValue() {
 		double sum = 0.0;
-		for (RequestItem requestItem : items) {
-			sum = sum + requestItem.getSubTotal();
+		for (OrderItem orderItem : items) {
+			sum = sum + orderItem.getSubTotal();
 		}
 
 		return sum;
@@ -104,11 +104,11 @@ public class Request {
 		this.address = address;
 	}
 
-	public Set<RequestItem> getItems() {
+	public Set<OrderItem> getItems() {
 		return items;
 	}
 
-	public void setItems(Set<RequestItem> items) {
+	public void setItems(Set<OrderItem> items) {
 		this.items = items;
 	}
 
@@ -128,7 +128,7 @@ public class Request {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Request other = (Request) obj;
+		Order other = (Order) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -143,7 +143,7 @@ public class Request {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
 		StringBuilder builder = new StringBuilder();
-		builder.append("Request number: ");
+		builder.append("Order number: ");
 		builder.append(this.getId());
 		builder.append(", Date: ");
 		builder.append(sdf.format(this.getDate()));
@@ -153,8 +153,8 @@ public class Request {
 		builder.append(this.getPayment().getStatus().getDescription());
 		builder.append("\nDetails:\n");
 
-		for (RequestItem requestItem : this.getItems()) {
-			builder.append(requestItem.toString());
+		for (OrderItem orderItem : this.getItems()) {
+			builder.append(orderItem.toString());
 		}
 
 		builder.append("Total value: ");

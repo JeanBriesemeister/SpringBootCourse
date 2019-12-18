@@ -7,24 +7,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class RequestItemPK implements Serializable {
+public class OrderItemPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
-	@JoinColumn(name = "REQUESTID")
-	private Request request;
+	@JoinColumn(name = "ORDERID")
+	private Order order;
 
 	@ManyToOne
 	@JoinColumn(name = "PRODUCTID")
 	private Product product;
 
-	public Request getRequest() {
-		return request;
+	public Order getOrder() {
+		return order;
 	}
 
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public Product getProduct() {
@@ -40,7 +40,7 @@ public class RequestItemPK implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((product == null) ? 0 : product.hashCode());
-		result = prime * result + ((request == null) ? 0 : request.hashCode());
+		result = prime * result + ((order == null) ? 0 : order.hashCode());
 		return result;
 	}
 
@@ -52,16 +52,16 @@ public class RequestItemPK implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RequestItemPK other = (RequestItemPK) obj;
+		OrderItemPK other = (OrderItemPK) obj;
 		if (product == null) {
 			if (other.product != null)
 				return false;
 		} else if (!product.equals(other.product))
 			return false;
-		if (request == null) {
-			if (other.request != null)
+		if (order == null) {
+			if (other.order != null)
 				return false;
-		} else if (!request.equals(other.request))
+		} else if (!order.equals(other.order))
 			return false;
 		return true;
 	}

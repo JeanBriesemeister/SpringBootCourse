@@ -14,7 +14,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.jean.sbc.domain.Customer;
-import com.jean.sbc.domain.Request;
+import com.jean.sbc.domain.Order;
 
 public abstract class AbstractEmailService implements EmailService {
 
@@ -28,37 +28,37 @@ public abstract class AbstractEmailService implements EmailService {
 	private JavaMailSender javaMailSender;
 
 	@Override
-	public void sendOrderConfirmationEmail(Request request) {
-		SimpleMailMessage sm = prepareSimpleMailMessageFromOrder(request);
+	public void sendOrderConfirmationEmail(Order order) {
+		SimpleMailMessage sm = prepareSimpleMailMessageFromOrder(order);
 		sendEmail(sm);
 	}
 
-	protected SimpleMailMessage prepareSimpleMailMessageFromOrder(Request request) {
+	protected SimpleMailMessage prepareSimpleMailMessageFromOrder(Order order) {
 		SimpleMailMessage sm = new SimpleMailMessage();
-		sm.setTo(request.getCustomer().getEmail());
+		sm.setTo(order.getCustomer().getEmail());
 		sm.setFrom(sender);
-		sm.setSubject("Order confirmed! Id: " + request.getId());
+		sm.setSubject("Order confirmed! Id: " + order.getId());
 		sm.setSentDate(new Date(System.currentTimeMillis()));
-		sm.setText(request.toString());
+		sm.setText(order.toString());
 
 		return sm;
 	}
 
-	protected String htmlFromTemplateOrder(Request request) {
+	protected String htmlFromTemplateOrder(Order order) {
 		Context context = new Context();
-		context.setVariable("request", request);
+		context.setVariable("order", order);
 
 		return templateEngine.process("email/orderConfirmation", context);
 	}
 
 	@Override
-	public void sendOrderConfirmatioHtmlEmail(Request request) {
+	public void sendOrderConfirmatioHtmlEmail(Order order) {
 		MimeMessage mm;
 		try {
-			mm = prepareMimeMessageFromOrder(request);
+			mm = prepareMimeMessageFromOrder(order);
 			sendHtmlEmail(mm);
 		} catch (MessagingException e) {
-			sendOrderConfirmationEmail(request);
+			sendOrderConfirmationEmail(order);
 		}
 	}
 
@@ -79,14 +79,14 @@ public abstract class AbstractEmailService implements EmailService {
 		return sm;
 	}
 
-	protected MimeMessage prepareMimeMessageFromOrder(Request request) throws MessagingException {
+	protected MimeMessage prepareMimeMessageFromOrder(Order order) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
-		mmh.setTo(request.getCustomer().getEmail());
+		mmh.setTo(order.getCustomer().getEmail());
 		mmh.setFrom(sender);
-		mmh.setSubject("Order confirmed! Id: " + request.getId());
+		mmh.setSubject("Order confirmed! Id: " + order.getId());
 		mmh.setSentDate(new Date(System.currentTimeMillis()));
-		mmh.setText(htmlFromTemplateOrder(request), true);
+		mmh.setText(htmlFromTemplateOrder(order), true);
 
 		return mimeMessage;
 	}

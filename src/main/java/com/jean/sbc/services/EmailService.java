@@ -5,15 +5,15 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 
 import com.jean.sbc.domain.Customer;
-import com.jean.sbc.domain.Request;
+import com.jean.sbc.domain.Order;
 
 public interface EmailService {
 
-	void sendOrderConfirmationEmail(Request request);
+	void sendOrderConfirmationEmail(Order order);
 
 	void sendEmail(SimpleMailMessage msg);
 
-	void sendOrderConfirmatioHtmlEmail(Request request);
+	void sendOrderConfirmatioHtmlEmail(Order order);
 
 	void sendHtmlEmail(MimeMessage msg);
 
