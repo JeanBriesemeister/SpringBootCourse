@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jean.sbc.domain.Category;
+import com.jean.sbc.domain.City;
 import com.jean.sbc.dto.CategoryDTO;
+import com.jean.sbc.dto.CityDTO;
 import com.jean.sbc.services.CategoryService;
 
 @RestController
@@ -87,5 +89,12 @@ public class CategoryResource {
 		Page<CategoryDTO> categoriesDto = categories.map(category -> new CategoryDTO(category));
 
 		return ResponseEntity.ok().body(categoriesDto);
+	}
+	
+	@RequestMapping(value = "/{id}/whatisthat", method = RequestMethod.GET)
+	public ResponseEntity<Category> findTwo(@PathVariable Integer id) {
+		Category category = categoryService.find(id);
+
+		return ResponseEntity.ok().body(category);
 	}
 }
