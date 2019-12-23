@@ -90,11 +90,5 @@ public class CategoryResource {
 
 		return ResponseEntity.ok().body(categoriesDto);
 	}
-	
-	@RequestMapping(value = "/{id}/whatisthat", method = RequestMethod.GET)
-	public ResponseEntity<Category> findTwo(@PathVariable Integer id) {
-		Category category = categoryService.find(id);
 
-		return ResponseEntity.ok().body(category);
-	}
 }
