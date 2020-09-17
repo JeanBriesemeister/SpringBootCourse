@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jean.sbc.domain.Category;
-import com.jean.sbc.domain.City;
 import com.jean.sbc.dto.CategoryDTO;
-import com.jean.sbc.dto.CityDTO;
 import com.jean.sbc.services.CategoryService;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -31,6 +33,7 @@ public class CategoryResource {
 	@Autowired
 	private CategoryService categoryService;
 
+	@ApiOperation(value = "Busca por id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Category> find(@PathVariable Integer id) {
 		Category category = categoryService.find(id);
@@ -38,6 +41,7 @@ public class CategoryResource {
 		return ResponseEntity.ok().body(category);
 	}
 
+	@ApiOperation(value = "Insere nova categoria")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO categoryDTO) {
@@ -60,6 +64,9 @@ public class CategoryResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@ApiResponses(value = {
+			@ApiResponse(code = 400, message = "Não é possível excluir uma categoria que possui produtos"),
+			@ApiResponse(code = 404, message = "Código inexistente") })
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
